@@ -14,73 +14,89 @@
       <div class="model-badge" id="modelBadge">正在读取模型信息…</div>
     </header>
 
-    <section class="upload-card" id="uploadCard">
-      <div class="drop">
-        <div class="drop-icon">📷</div>
-        <p class="drop-title">拍照或选择一张饭菜照片</p>
-        <p class="hint">支持 JPG / PNG，手机上可直接调用相机</p>
-        <div class="btns">
-          <button class="btn primary" id="btnCamera">📸 拍照</button>
-          <button class="btn" id="btnGallery">🖼 从相册选</button>
+    <nav class="tabs">
+      <button class="tab active" data-tab="home">📷 拍照</button>
+      <button class="tab" data-tab="history">🗂 历史</button>
+      <button class="tab" data-tab="summary">📊 总结</button>
+    </nav>
+
+    <main>
+      <!-- ========== 拍照 ========== -->
+      <section id="tab-home" class="tab-panel active">
+        <section class="upload-card" id="uploadCard">
+          <div class="drop">
+            <div class="drop-icon">📷</div>
+            <p class="drop-title">拍照或选择一张饭菜照片</p>
+            <p class="hint">支持 JPG / PNG，手机上可直接调用相机</p>
+            <div class="btns">
+              <button class="btn primary" id="btnCamera">📸 拍照</button>
+              <button class="btn" id="btnGallery">🖼 从相册选</button>
+            </div>
+            <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden>
+            <input type="file" id="galleryInput" accept="image/*" hidden>
+          </div>
+        </section>
+
+        <section class="preview hidden" id="previewCard">
+          <img id="previewImg" alt="预览">
+          <div class="preview-btns">
+            <button class="btn primary" id="btnAnalyze">✨ 开始分析</button>
+            <button class="btn ghost" id="btnReset">换一张</button>
+          </div>
+        </section>
+
+        <div class="loading hidden" id="loading">
+          <div class="spinner"></div>
+          <p>AI 正在识别食物、估算营养…</p>
         </div>
-        <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden>
-        <input type="file" id="galleryInput" accept="image/*" hidden>
-      </div>
-    </section>
 
-    <section class="preview hidden" id="previewCard">
-      <img id="previewImg" alt="预览">
-      <div class="preview-btns">
-        <button class="btn primary" id="btnAnalyze">✨ 开始分析</button>
-        <button class="btn ghost" id="btnReset">换一张</button>
-      </div>
-    </section>
+        <div class="error hidden" id="errorBox"></div>
 
-    <div class="loading hidden" id="loading">
-      <div class="spinner"></div>
-      <p>AI 正在识别食物、估算营养…</p>
-    </div>
+        <section class="result hidden" id="resultCard">
+          <h2>📊 营养总览</h2>
+          <div class="totals">
+            <div class="total"><div class="num" id="tCal">0</div><div class="unit">千卡</div></div>
+            <div class="total"><div class="num" id="tPro">0</div><div class="unit">蛋白质 g</div></div>
+            <div class="total"><div class="num" id="tFat">0</div><div class="unit">脂肪 g</div></div>
+            <div class="total"><div class="num" id="tCarb">0</div><div class="unit">碳水 g</div></div>
+          </div>
 
-    <div class="error hidden" id="errorBox"></div>
+          <h2>🍽 食物明细</h2>
+          <div class="table" id="foodTable"></div>
 
-    <section class="result hidden" id="resultCard">
-      <h2>📊 营养总览</h2>
-      <div class="totals">
-        <div class="total">
-          <div class="num" id="tCal">0</div>
-          <div class="unit">千卡</div>
+          <h2>👍 优点</h2>
+          <ul class="list good" id="goodList"></ul>
+
+          <h2>⚠️ 不足与风险</h2>
+          <ul class="list bad" id="badList"></ul>
+
+          <h2>💡 建议</h2>
+          <div class="advice" id="adviceText"></div>
+
+          <button class="btn wide" id="btnAgain">再拍一张</button>
+        </section>
+      </section>
+
+      <!-- ========== 历史 ========== -->
+      <section id="tab-history" class="tab-panel">
+        <div class="panel-head">
+          <h2>🗂 历史记录</h2>
+          <button class="btn small" id="btnClearHistory">清空</button>
         </div>
-        <div class="total">
-          <div class="num" id="tPro">0</div>
-          <div class="unit">蛋白质 g</div>
-        </div>
-        <div class="total">
-          <div class="num" id="tFat">0</div>
-          <div class="unit">脂肪 g</div>
-        </div>
-        <div class="total">
-          <div class="num" id="tCarb">0</div>
-          <div class="unit">碳水 g</div>
-        </div>
-      </div>
+        <div id="historyList"></div>
+      </section>
 
-      <h2>🍽 食物明细</h2>
-      <div class="table" id="foodTable"></div>
-
-      <h2>👍 优点</h2>
-      <ul class="list good" id="goodList"></ul>
-
-      <h2>⚠️ 不足与风险</h2>
-      <ul class="list bad" id="badList"></ul>
-
-      <h2>💡 建议</h2>
-      <div class="advice" id="adviceText"></div>
-
-      <button class="btn wide" id="btnAgain">再拍一张</button>
-    </section>
+      <!-- ========== 总结 ========== -->
+      <section id="tab-summary" class="tab-panel">
+        <div class="panel-head"><h2>📊 营养总结</h2></div>
+        <div id="summaryBox"></div>
+      </section>
+    </main>
 
     <footer>结果由 AI 估算，仅供参考，不能替代医生或营养师的专业意见。</footer>
   </div>
+
+  <div id="toast" class="toast"></div>
   <script src="app.js"></script>
 </body>
 </html>
